@@ -4,22 +4,22 @@
 MAYA_VER ?= 2013
 MAYA_PATH = ""
 ifeq ($(MAYA_VER), 2013)
-	MAYA_PATH += -I/usr/autodesk/maya2013-x64 
+	MAYA_PATH=/usr/autodesk/maya2013-x64
 else
-	MAYA_PATH += -I/usr/autodesk/maya2012-x64
+	MAYA_PATH=/usr/autodesk/maya2012-x64
 endif
 
-NAME=exampleplugin
+NAME=mengercmd
 BIN=bin
-SOURCES=$(wildcard src/**/*.c src/*.c)
-OBJECTS=$(SOURCES:%.c=%.o)
-LIB=$(BIN)/$(NAME)
+SOURCES=$(wildcard src/**/*.cpp src/*.cpp)
+OBJECTS=$(SOURCES:%.cpp=%.o)
+LIB=$(BIN)/$(NAME).so
 
-CC=g++ $(CFLAGS) 
-CFLAGS= -c -m64 -pthread -pipe -D_BOOL -DLINUX_64 -DREQUIRE_IOSTREAM -fPIC -mtune=pentium4 -Wno-deprecated -fno-gnu-keywords
-CFLAGS += -I$(MAYA_PATH)/include
+CC=g++ 
+CFLAGS = -I$(MAYA_PATH)/include
+CFLAGS += -pthread -pipe -D_BOOL -DLINUX_64 -DREQUIRE_IOSTREAM -fPIC -Wno-deprecated -fno-gnu-keywords
 
-LFLAGS= -L$(MAYA_PATH)/lib -lOpenmaya -lFoundation
+LFLAGS= -L$(MAYA_PATH)/lib -lOpenMaya -lFoundation
 
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
@@ -33,7 +33,7 @@ all: $(SOURCES) $(LIB)
 $(LIB): $(OBJECTS) setup
 	$(CC) --shared $(CFLAGS) $(OBJECTS) -o $@ $(LFLAGS)
 
-%.o: %.c
+%.o: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
 setup:
