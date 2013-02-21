@@ -1,0 +1,44 @@
+# Example makefile for mayaplugins, linux64.
+# Assumes src-files in subdir src/
+
+MAYA_VER ?= 2013
+MAYA_PATH = ""
+ifeq ($(MAYA_VER), 2013)
+	MAYA_PATH += -I/usr/autodesk/maya2013-x64 
+else
+	MAYA_PATH += -I/usr/autodesk/maya2012-x64
+endif
+
+NAME=exampleplugin
+BIN=bin
+SOURCES=$(wildcard src/**/*.c src/*.c)
+OBJECTS=$(SOURCES:%.c=%.o)
+LIB=$(BIN)/$(NAME)
+
+CC=g++ $(CFLAGS) 
+CFLAGS= -c -m64 -pthread -pipe -D_BOOL -DLINUX_64 -DREQUIRE_IOSTREAM -fPIC -mtune=pentium4 -Wno-deprecated -fno-gnu-keywords
+CFLAGS += -I$(MAYA_PATH)/include
+
+LFLAGS= -L$(MAYA_PATH)/lib -lOpenmaya -lFoundation
+
+DEBUG ?= 0
+ifeq ($(DEBUG), 1)
+	CFLAGS += -DDEBUG -g
+else
+	CFLAGS += -O2
+endif
+
+all: $(SOURCES) $(LIB)
+
+$(LIB): $(OBJECTS) setup
+	$(CC) --shared $(CFLAGS) $(OBJECTS) -o $@ $(LFLAGS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+setup:
+	@mkdir -p bin
+
+clean:
+	rm -rf bin
+	rm -f $(OBJECTS)
