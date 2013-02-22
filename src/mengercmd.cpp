@@ -44,7 +44,7 @@ void* mengerCmd::creator()
 
 #define INIT_INFO_TEXT PLUGIN_NAME " " PLUGIN_VER " registered."
 
-MStatus initializePlugin(MObject obj)
+__declspec(dllexport) MStatus initializePlugin(MObject obj)
 {
     MFnPlugin plugin(obj, PLUGIN_NAME, PLUGIN_VER, "Any");
     plugin.registerCommand(PLUGIN_CMD, mengerCmd::creator);
@@ -54,7 +54,7 @@ MStatus initializePlugin(MObject obj)
     return MS::kSuccess;
 }
 
-MStatus uninitializePlugin(MObject obj)
+__declspec(dllexport) MStatus uninitializePlugin(MObject obj)
 {
     MFnPlugin plugin( obj );
 
