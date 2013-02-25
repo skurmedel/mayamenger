@@ -29,11 +29,11 @@ dice_err::val dice(cube const &c, unsigned int iterations, std::vector<cube> &ou
 					{
 						newc.start.x = x * bx;
 						newc.start.y = y * by;
-						newc.start.z = z * by;
+						newc.start.z = z * bz;
 
 						newc.end.x = (x + 1) * bx;
 						newc.end.y = (y + 1) * by;
-						newc.end.z = (z + 1) * by;
+						newc.end.z = (z + 1) * bz;
 
 						tmp.push_back(newc);
 					}
