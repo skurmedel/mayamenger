@@ -25,18 +25,16 @@ static void makeCube(MStatus *stat)
 
     MFloatPointArray points;
 
-    int vtx_cnt = 0;
-    for (int z = 0; z < 2; ++z)
-    {
-        for (int y = 0; y < 2; ++y)
-        {
-            for (int x = 0; x < 2; ++x)
-            {
-                points.append(MFloatPoint( (float) x, (float) y, (float) z ));
-                vtx_cnt++;
-            }
-        }
-    }
+    int vtx_cnt = 8;
+    points.append(MFloatPoint( (float)  0.5, (float)  0.5, (float)  0.5));
+    points.append(MFloatPoint( (float) -0.5, (float)  0.5, (float)  0.5));
+    points.append(MFloatPoint( (float) -0.5, (float) -0.5, (float)  0.5));
+    points.append(MFloatPoint( (float)  0.5, (float) -0.5, (float)  0.5));
+
+    points.append(MFloatPoint( (float)  0.5, (float)  0.5, (float) -0.5));
+    points.append(MFloatPoint( (float) -0.5, (float)  0.5, (float) -0.5));
+    points.append(MFloatPoint( (float) -0.5, (float) -0.5, (float) -0.5));
+    points.append(MFloatPoint( (float)  0.5, (float) -0.5, (float) -0.5));
     cout << "vtx_cnt: " << vtx_cnt << endl;
 
     int const face_cnt = 6;
@@ -46,10 +44,10 @@ static void makeCube(MStatus *stat)
     int face_connects[face_cnt * 4] =
     {  0, 1, 2, 3,
         4, 5, 6, 7,
-        3, 2, 6, 5,
-        0, 3, 5, 4,
-        0, 4, 7, 1,
-        1, 7, 6, 2  };
+        3, 7, 4, 0,
+        2, 1, 5, 6,
+        0, 4, 5, 1,
+        3, 7, 6, 2  };
     MIntArray faceConnects(face_connects, face_cnt * 4);
 
     MObject newMesh = 
