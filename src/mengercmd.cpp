@@ -5,7 +5,12 @@
 #include <maya/MIOStream.h>
 #include <maya/MGlobal.h>
 
+#include <maya/MFnMesh.h>
+#include <maya/MFloatPoint.h>
+#include <maya/MFloatPointArray.h>
+
 #include "mengercmd.hpp"
+#include "mengerfun.hpp"
 
 
 #ifdef WIN_64
@@ -26,7 +31,41 @@ mengerCmd::~mengerCmd()
 
 MStatus mengerCmd::doIt( const MArgList& ) 
 {
-    return MS::kSuccess;
+    MFnMesh fnMesh;
+    MObject result;
+
+    MFloatPointArray points;
+
+    points.append(MFloatPoint(-1.0, 1.0, 0.0));
+    points.append(MFloatPoint(-1.0, -1.0, 0.0));
+    points.append(MFloatPoint(1.0, -1.0, 0.0));
+    points.append(MFloatPoint(1.0, 1.0, 0.0));
+
+    int const face_cnt = 1;
+    int pts_per_vtx[face_cnt] = { 4 };
+    MIntArray faceCounts(pts_per_vtx, face_cnt);
+
+    int face_connects[face_cnt * 4] = { 0, 1, 2, 3 };
+    MIntArray faceConnects(face_connects, face_cnt * 4);
+
+    MStatus stat;
+
+    MObject newMesh = 
+        fnMesh.create(
+            /* numVertices */ 4, 
+            /* numFaces */ face_cnt, 
+            points, 
+            faceCounts, 
+            faceConnects, 
+            MObject::kNullObj, 
+            &stat);
+
+    if (stat == MStatus::kSuccess)
+        MGlobal::displayInfo("YAY!");
+    else
+        MGlobal::displayInfo("Shit.");
+
+    return stat;
 }
 
 MStatus mengerCmd::redoIt() 

@@ -47,6 +47,8 @@ dice_err::val dice(cube const &c, unsigned int iterations, std::vector<cube> &ou
 		{
 			return dice(*it, iterations - 1, out);
 		}
+
+		tmp.clear();
 	} 
 
 	foreach_cube(tmp)
