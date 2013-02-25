@@ -43,11 +43,11 @@ static void makeCube(MStatus *stat)
 
     int face_connects[face_cnt * 4] =
     {  0, 1, 2, 3,
-        4, 5, 6, 7,
+        7, 6, 5, 4,
         3, 7, 4, 0,
         2, 1, 5, 6,
         0, 4, 5, 1,
-        3, 7, 6, 2  };
+        2, 6, 7, 3  };
     MIntArray faceConnects(face_connects, face_cnt * 4);
 
     MObject newMesh = 
