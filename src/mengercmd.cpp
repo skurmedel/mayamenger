@@ -7,6 +7,13 @@
 
 #include "mengercmd.hpp"
 
+
+#ifdef WIN_64
+#define FUN_EXPORT __declspec(dllexport)
+#else
+#define FUN_EXPORT
+#endif 
+
 mengerCmd::mengerCmd() 
 {
     
@@ -44,7 +51,7 @@ void* mengerCmd::creator()
 
 #define INIT_INFO_TEXT PLUGIN_NAME " " PLUGIN_VER " registered."
 
-__declspec(dllexport) MStatus initializePlugin(MObject obj)
+FUN_EXPORT MStatus initializePlugin(MObject obj)
 {
     MFnPlugin plugin(obj, PLUGIN_NAME, PLUGIN_VER, "Any");
     plugin.registerCommand(PLUGIN_CMD, mengerCmd::creator);
@@ -54,7 +61,7 @@ __declspec(dllexport) MStatus initializePlugin(MObject obj)
     return MS::kSuccess;
 }
 
-__declspec(dllexport) MStatus uninitializePlugin(MObject obj)
+FUN_EXPORT MStatus uninitializePlugin(MObject obj)
 {
     MFnPlugin plugin( obj );
 

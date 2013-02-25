@@ -12,10 +12,13 @@ class mengerCmd : public MPxCommand
     public:
         mengerCmd();
         virtual ~mengerCmd();
+
         MStatus doIt( const MArgList& );
         MStatus redoIt();
         MStatus undoIt();
+
         bool isUndoable() const;
+        
         static void* creator();
 };
 
