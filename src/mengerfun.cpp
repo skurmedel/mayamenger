@@ -4,13 +4,8 @@
 
 typedef std::vector<cube>::iterator vcube_it;
 
-dice_err::val dice(cube const &c, unsigned int iterations, std::vector<cube> &out)
+dice_err::val dice_impl(unsigned int iterations, std::vector<cube> &out)
 {
-	if (!c.valid())
-	{
-		return dice_err::bounds_err;
-	}
-
 	std::vector<cube> tmp;
 	if (iterations != 0)
 	{
@@ -45,16 +40,25 @@ dice_err::val dice(cube const &c, unsigned int iterations, std::vector<cube> &ou
 
 		foreach_cube(tmp) 
 		{
-			return dice(*it, iterations - 1, out);
+			out.push_back(*it);
 		}
 
 		tmp.clear();
+
+		return dice_impl(iterations - 1, out);
 	} 
 
-	foreach_cube(tmp)
+	return dice_err::success;
+}
+
+dice_err::val dice(cube const &c, unsigned int iterations, std::vector<cube> &out)
+{
+	if (!c.valid())
 	{
-		out.push_back(*it);
+		return dice_err::bounds_err;
 	}
 
-	return dice_err::success;
+	out.push_back(c);
+
+	return dice_impl(iterations, out);
 }

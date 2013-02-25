@@ -9,9 +9,9 @@ struct point3
 
 	bool equal(point3 const &o) const
 	{
-		return this->x == o.x
-		     && this->y == o.y
-		     && this->z == o.z;
+		return x == o.x
+		     && y == o.y
+		     && z == o.z;
 	}
 
 	point3 between(point3 const &o) const
@@ -31,6 +31,24 @@ struct point3
 		p.z = z / scalar;
 		return p;
 	}
+
+	point3 operator*(float scalar)
+	{
+		point3 p;
+		p.x = x * scalar;
+		p.y = y * scalar;
+		p.z = z * scalar;
+		return p;
+	}
+
+	point3 operator+(point3 const &o)
+	{
+		point3 p;
+		p.x = x + o.x;
+		p.y = y + o.y;
+		p.z = z + o.z;
+		return p;
+	}
 };
 
 struct cube
@@ -40,7 +58,7 @@ struct cube
 
 	bool valid() const
 	{
-		return this->start.equal(this->end);
+		return !start.equal(end);
 	}
 
 	point3 diagonal() const
