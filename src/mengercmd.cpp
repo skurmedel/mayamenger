@@ -140,13 +140,13 @@ MStatus mengerCmd::doIt(const MArgList &args)
 
     if (dice_status == dice_err::success)
     {
-        MGlobal::displayInfo("YAY!");
+        MGlobal::displayInfo("A Menger Sponge was created.!");
 
         makeCubes(cubes, &stat);
     }
     else
     {
-        MGlobal::displayError("Shit.");
+        MGlobal::displayError("A Menger Sponge could not be computed.");
         switch (dice_status)
         {
             case dice_err::invalid_param_err:
