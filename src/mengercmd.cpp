@@ -97,52 +97,6 @@ static void makeCubes(std::vector<cube> &cubes, MStatus *stat)
             stat);
 }
 
-static void makeCube(int index_offset, float scale, MFloatVector pos, MStatus *stat)
-{
-    MFnMesh fnMesh;
-    MObject result;
-
-    MFloatPointArray points;
-
-    int vtx_cnt = 8;
-    #define mkpoint(x, y, z) points.append((MFloatPoint(x, y, z) * scale) + pos)
-    
-    mkpoint( 0.5,   0.5,   0.5);
-    mkpoint(-0.5,  0.5,   0.5);
-    mkpoint(-0.5, -0.5,   0.5);
-    mkpoint( 0.5,  -0.5,  0.5);
-
-    mkpoint( 0.5,   0.5,   -0.5);
-    mkpoint(-0.5,  0.5,   -0.5);
-    mkpoint(-0.5, -0.5,   -0.5);
-    mkpoint( 0.5,  -0.5,  -0.5);
-
-    #undef mkpoint
-
-    int const face_cnt = 6;
-    int pts_per_face[face_cnt] = { 4, 4, 4, 4, 4, 4 };
-    MIntArray faceCounts(pts_per_face, face_cnt);
-
-    int face_connects[face_cnt * 4] =
-    {  0, 1, 2, 3,
-        7, 6, 5, 4,
-        3, 7, 4, 0,
-        2, 1, 5, 6,
-        0, 4, 5, 1,
-        2, 6, 7, 3  };
-    MIntArray faceConnects(face_connects, face_cnt * 4);
-
-    MObject newMesh = 
-        fnMesh.create(
-            /* numVertices */ vtx_cnt, 
-            /* numFaces */ face_cnt, 
-            points, 
-            faceCounts, 
-            faceConnects, 
-            MObject::kNullObj, 
-            stat);
-}
-
 #define FLAG_SIZE               "-s"
 #define FLAG_SIZE_LONG          "-size"
 #define FLAG_ITER               "-i"
