@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <maya/MString.h>
 #include <maya/MArgList.h>
+#include <maya/MArgParser.h>
+#include <maya/MSyntax.h>
 #include <maya/MFnPlugin.h>
 #include <maya/MIOStream.h>
 #include <maya/MGlobal.h>
@@ -141,6 +143,11 @@ static void makeCube(int index_offset, float scale, MFloatVector pos, MStatus *s
             stat);
 }
 
+#define FLAG_SIZE                       "-s"
+#define FLAG_SIZE_LONG          "-size"
+#define FLAG_ITER                       "-i"
+#define FLAG_ITER_LONG           "-iter"
+
 mengerCmd::mengerCmd() 
 {
     
@@ -151,18 +158,31 @@ mengerCmd::~mengerCmd()
     
 }
 
-MStatus mengerCmd::doIt( const MArgList& ) 
+MStatus mengerCmd::doIt(const MArgList &args) 
 {
+    MSyntax syntax;
+    syntax.addFlag(FLAG_SIZE, FLAG_SIZE_LONG, MSyntax::kDouble);
+    syntax.addFlag(FLAG_ITER, FLAG_ITER_LONG, MSyntax::kUnsigned);
+
     MStatus stat = MStatus::kSuccess;
+
+    MArgParser arg_parser(syntax, args, &stat);
+    if (stat != MStatus::kSuccess)
+        return stat;
+
+    double size = 1.0f;
+    stat = arg_parser.getFlagArgument(FLAG_SIZE, 0, size);
+
+    unsigned int iterations = 3;
+    stat = arg_parser.getFlagArgument(FLAG_ITER, 0, iterations);
+
     cube c;
-    c.start.x = -10;
-    c.start.y = -10;
-    c.start.z = -10;
+    c.start.x = c.start.y = c.start.z = (float) -size;
     c.end = c.start * -1;
 
     std::vector<cube> cubes;
     dice_err::val dice_status = 
-        dice(c, 4, cubes);
+        dice(c, iterations, cubes);
 
     if (dice_status == dice_err::success)
     {
