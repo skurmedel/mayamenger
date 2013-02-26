@@ -1,6 +1,6 @@
 #include "mengerfun.hpp"
 
-#include <maya\MGlobal.h>
+#include <maya/MGlobal.h>
 
 #define foreach_cube(n) for (vcube_it it = (n).begin(); it != (n).end(); it++)
 

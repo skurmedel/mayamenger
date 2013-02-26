@@ -19,7 +19,83 @@
 #define FUN_EXPORT
 #endif 
 
-static void makeCube(float scale, MFloatVector pos, MStatus *stat)
+static void addCube(
+    float scale, 
+    MFloatVector pos,
+    int index_offset,
+    MFloatPointArray &points,
+    MIntArray &faceCounts,
+    MIntArray &faceConnects)
+{
+    #define mkpoint(x, y, z) points.append((MFloatPoint(x, y, z) * scale) + pos)
+    
+    mkpoint( 0.5,   0.5,   0.5);
+    mkpoint(-0.5,  0.5,   0.5);
+    mkpoint(-0.5, -0.5,   0.5);
+    mkpoint( 0.5,  -0.5,  0.5);
+
+    mkpoint( 0.5,   0.5,   -0.5);
+    mkpoint(-0.5,  0.5,   -0.5);
+    mkpoint(-0.5, -0.5,   -0.5);
+    mkpoint( 0.5,  -0.5,  -0.5);
+
+    #undef mkpoint
+
+    for (int i = 0; i < 6; i++)
+        faceCounts.append(4);
+
+    int face_connects[6 * 4] =
+    {  
+        0, 1, 2, 3,
+        7, 6, 5, 4,
+        3, 7, 4, 0,
+        2, 1, 5, 6,
+        0, 4, 5, 1,
+        2, 6, 7, 3  
+    };
+    for (int i = 0; i < 6 * 4; i++)
+    {
+        faceConnects.append(face_connects[i] + index_offset);
+    }
+}
+
+static void makeCubes(std::vector<cube> &cubes, MStatus *stat)
+{
+    MFnMesh fnMesh;
+    MObject result;
+
+    MFloatPointArray points;
+    MIntArray faceCounts;
+    MIntArray faceConnects;
+
+    int index_offset = 0;
+    for (std::vector<cube>::iterator cit = cubes.begin(); cit != cubes.end(); ++cit)
+    {
+        point3 diag = cit->diagonal();
+        float scale = diag.x;
+        point3 pos = cit->start + (diag * .5f);
+
+        MFloatVector mpos(pos.x, pos.y, pos.z);
+
+        addCube(scale, mpos, index_offset * (8), points, faceCounts, faceConnects);
+        index_offset += 1;
+    }
+
+    unsigned int vtx_cnt = points.length();
+    unsigned int face_cnt = faceCounts.length();
+
+    MObject newMesh = 
+        fnMesh.create(
+            /* numVertices */ vtx_cnt, 
+            /* numFaces */ face_cnt, 
+            points, 
+            faceCounts, 
+            faceConnects, 
+            MObject::kNullObj, 
+            stat);
+}
+
+static void makeCube(int index_offset, float scale, MFloatVector pos, MStatus *stat)
 {
     MFnMesh fnMesh;
     MObject result;
@@ -92,18 +168,7 @@ MStatus mengerCmd::doIt( const MArgList& )
     {
         MGlobal::displayInfo("YAY!");
 
-        for (std::vector<cube>::iterator i = cubes.begin(); i != cubes.end(); ++i)
-        {
-            point3 diag = i->diagonal();
-            float scale = diag.x;
-            point3 pos = i->start + (diag * .5f);
-
-			MString blah;
-			blah += scale;
-			MGlobal::displayInfo(blah);
-
-            makeCube(scale, MFloatVector(pos.x, pos.y, pos.z), &stat);
-        }
+        makeCubes(cubes, &stat);
     }
     else
     {
