@@ -7,6 +7,17 @@ struct point3
 {
 	float x, y, z;
 
+	point3(): x(0), y(0), z(0)
+	{
+		
+	}
+
+	point3(float x, float y, float z):
+		x(x), y(y), z(z)
+	{
+
+	}
+
 	bool equal(point3 const &o) const
 	{
 		return x == o.x

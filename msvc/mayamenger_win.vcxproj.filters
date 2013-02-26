@@ -18,9 +18,15 @@
     <ClCompile Include="..\src\mengercmd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\mengerfun.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\mengercmd.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mengerfun.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

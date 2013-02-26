@@ -13,7 +13,7 @@
 #include "mengercmd.hpp"
 #include "mengerfun.hpp"
 
-#ifdef WIN_64
+#ifdef WIN64
 #define FUN_EXPORT __declspec(dllexport)
 #else
 #define FUN_EXPORT
@@ -86,7 +86,7 @@ MStatus mengerCmd::doIt( const MArgList& )
 
     std::vector<cube> cubes;
     dice_err::val dice_status = 
-        dice(c, 3, cubes);
+        dice(c, 4, cubes);
 
     if (dice_status == dice_err::success)
     {
@@ -97,6 +97,10 @@ MStatus mengerCmd::doIt( const MArgList& )
             point3 diag = i->diagonal();
             float scale = diag.x;
             point3 pos = i->start + (diag * .5f);
+
+			MString blah;
+			blah += scale;
+			MGlobal::displayInfo(blah);
 
             makeCube(scale, MFloatVector(pos.x, pos.y, pos.z), &stat);
         }

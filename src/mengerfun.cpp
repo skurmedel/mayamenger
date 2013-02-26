@@ -1,54 +1,62 @@
 #include "mengerfun.hpp"
 
+#include <maya\MGlobal.h>
+
 #define foreach_cube(n) for (vcube_it it = (n).begin(); it != (n).end(); it++)
 
 typedef std::vector<cube>::iterator vcube_it;
 
 dice_err::val dice_impl(unsigned int iterations, std::vector<cube> &out)
 {
+	if (iterations < 1)
+		return dice_err::success;
+
 	std::vector<cube> tmp;
-	if (iterations != 0)
+	foreach_cube(out) 
 	{
-		foreach_cube(out) 
+		/* Diagonal of the cube, scaled to 33%. */
+		point3 dia = it->diagonal();
+		point3 incr = dia * 0.33333333f;
+		
+		for (int z = 0; z < 3; z++)
 		{
-			/* Diagonal of the cube, scaled to 33%. */
-			point3 dia = it->diagonal() / 3.0f;
-			float bx = dia.x, by = dia.y, bz = dia.z;
-
-			for (int z = 0; z < 3; z++)
+			for (int y = 0; y < 3; y++)
 			{
-				cube newc;
-				for (int y = 0; y < 3; y++)
+				for (int x = 0; x < 3; x++)
 				{
-					for (int x = 0; x < 3; x++)
+					if ((y == 0 || y == 2) && x == 1 && z == 1) 
+					{ 
+						/* do nothing */ 
+					}
+					else if (y == 1 && (x == 1 || z == 1)) 
+					{ 
+						/* zzz */ 
+					}
+					else
 					{
-						newc.start.x = x * bx;
-						newc.start.y = y * by;
-						newc.start.z = z * bz;
+						cube newc;
 
-						newc.end.x = (x + 1) * bx;
-						newc.end.y = (y + 1) * by;
-						newc.end.z = (z + 1) * bz;
+						newc.start = it->start + point3(x * incr.x, y * incr.y, z * incr.z);
+
+						newc.end = newc.start + incr;
 
 						tmp.push_back(newc);
 					}
 				}
 			}
 		}
+	}
 
-		out.clear();
+	out.clear();
 
-		foreach_cube(tmp) 
-		{
-			out.push_back(*it);
-		}
+	foreach_cube(tmp) 
+	{
+		out.push_back(*it);
+	}
 
-		tmp.clear();
+	tmp.clear();
 
-		return dice_impl(iterations - 1, out);
-	} 
-
-	return dice_err::success;
+	return dice_impl(iterations - 1, out);
 }
 
 dice_err::val dice(cube const &c, unsigned int iterations, std::vector<cube> &out)

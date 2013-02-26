@@ -76,11 +76,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>mayamenger</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.mll</TargetExt>
     <IncludePath>C:\Program Files\Autodesk\Maya2013\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files\Autodesk\Maya2013\lib;$(LibraryPath)</LibraryPath>
     <ExecutablePath>C:\Program Files\Autodesk\Maya2013\lib;$(ExecutablePath)</ExecutablePath>
     <LibraryWPath>C:\Program Files\Autodesk\Maya2013\lib;$(LibraryWPath)</LibraryWPath>
+    <OutDir>$(SolutionDir)\..\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)..\bin\</OutDir>
@@ -93,11 +94,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetName>mayamenger</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.mll</TargetExt>
     <IncludePath>C:\Program Files\Autodesk\Maya2013\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files\Autodesk\Maya2013\lib;$(LibraryPath)</LibraryPath>
     <ExecutablePath>C:\Program Files\Autodesk\Maya2013\lib;$(ExecutablePath)</ExecutablePath>
     <LibraryWPath>C:\Program Files\Autodesk\Maya2013\lib;$(LibraryWPath)</LibraryWPath>
+    <OutDir>$(SolutionDir)\..\bin\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -116,7 +118,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_BOOL;REQUIRE_IOSTREAM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN64;_BOOL;REQUIRE_IOSTREAM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -146,7 +148,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_BOOL;REQUIRE_IOSTREAM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_BOOL;REQUIRE_IOSTREAM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -157,9 +159,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\mengercmd.cpp" />
+    <ClCompile Include="..\src\mengerfun.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\mengercmd.hpp" />
+    <ClInclude Include="..\src\mengerfun.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
