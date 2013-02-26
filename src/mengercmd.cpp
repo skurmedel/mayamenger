@@ -16,9 +16,9 @@
 #include "mengerfun.hpp"
 
 #ifdef WIN64
-#define FUN_EXPORT __declspec(dllexport)
+	#define FUN_EXPORT __declspec(dllexport)
 #else
-#define FUN_EXPORT
+	#define FUN_EXPORT
 #endif 
 
 static void addCube(
@@ -31,15 +31,15 @@ static void addCube(
 {
     #define mkpoint(x, y, z) points.append((MFloatPoint(x, y, z) * scale) + pos)
     
-    mkpoint( 0.5,   0.5,   0.5);
-    mkpoint(-0.5,  0.5,   0.5);
-    mkpoint(-0.5, -0.5,   0.5);
-    mkpoint( 0.5,  -0.5,  0.5);
+    mkpoint( 0.5, 0.5, 0.5);
+    mkpoint(-0.5, 0.5, 0.5);
+    mkpoint(-0.5,-0.5, 0.5);
+    mkpoint( 0.5,-0.5, 0.5);
 
-    mkpoint( 0.5,   0.5,   -0.5);
-    mkpoint(-0.5,  0.5,   -0.5);
-    mkpoint(-0.5, -0.5,   -0.5);
-    mkpoint( 0.5,  -0.5,  -0.5);
+    mkpoint( 0.5, 0.5,-0.5);
+    mkpoint(-0.5, 0.5,-0.5);
+    mkpoint(-0.5,-0.5,-0.5);
+    mkpoint( 0.5,-0.5,-0.5);
 
     #undef mkpoint
 
@@ -143,10 +143,10 @@ static void makeCube(int index_offset, float scale, MFloatVector pos, MStatus *s
             stat);
 }
 
-#define FLAG_SIZE                       "-s"
+#define FLAG_SIZE               "-s"
 #define FLAG_SIZE_LONG          "-size"
-#define FLAG_ITER                       "-i"
-#define FLAG_ITER_LONG           "-iter"
+#define FLAG_ITER               "-i"
+#define FLAG_ITER_LONG          "-iter"
 
 mengerCmd::mengerCmd() 
 {
