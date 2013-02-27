@@ -1,3 +1,5 @@
+![Menger Sponge iteration 3 rendered in V-Ray using Light Cache GI.](https://raw.github.com/skurmedel/mayamenger/master/examplesponge.jpg)
+
 What is this?
 -------------
 
