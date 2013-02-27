@@ -5,6 +5,13 @@ A Maya plug-in that creates a menger sponge.
 
 For more information, see the Wikipedia article:
    http://en.wikipedia.org/wiki/Menger_sponge
+   
+It has no practical application. But it can be useful for rendering tests 
+and you don't want to render yet another Stanford Dragon.
+
+The Menger Sponge of sufficient iterations provides quite a challenge for 
+some Global Illumination algorithms too, if the only light source is in
+the center of the sponge in the largest cavity.
 
 What can it do?
 ===============
@@ -32,4 +39,4 @@ Run the command:
 
     createMenger -i $n -s $s 
     
-...where $n is number of iterations and size is the length of one side of the final cube.
+...where $n is number of iterations and $s is the length of one side of the final cube.
