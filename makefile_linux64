@@ -1,12 +1,16 @@
 # Example makefile for mayaplugins, linux64.
 # Assumes src-files in subdir src/
 
+# If needed, set this on make invocation:
+#    make -f makefile_linux64 MAYA_BASE_PATH=foobar
+MAYA_BASE_PATH ?= /usr/autodesk
+
 MAYA_VER ?= 2013
-MAYA_PATH = ""
+MAYA_PATH=""
 ifeq ($(MAYA_VER), 2013)
-	MAYA_PATH=/usr/autodesk/maya2013-x64
+	MAYA_PATH=$(MAYA_BASE_PATH)/maya2013-x64
 else
-	MAYA_PATH=/usr/autodesk/maya2012-x64
+	MAYA_PATH=$(MAYA_BASE_PATH)/usr/autodesk/maya2012-x64
 endif
 
 NAME=mengercmd
