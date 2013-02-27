@@ -26,7 +26,7 @@ What can it not do?
 
 Undo and redo is not working yet.
 
-Also note it builds the sponge from discrete cubes. It does not create one contigous surface representing the sponge, but rather one mesh made up of (20 ^ iterations) many cubes. Support for generating a contigous surface may be added in the future.
+Also note it builds the sponge from discrete cubes. It does not create one contiguous surface representing the sponge, but rather one mesh made up of (20 ^ iterations) many cubes. Support for generating a contiguous surface may be added in the future.
 
 How do I build it?
 ------------------
