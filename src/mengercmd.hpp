@@ -3,7 +3,7 @@
 
 #define PLUGIN_CMD		"createMenger"
 #define PLUGIN_NAME 	"MengerCommand"
-#define PLUGIN_VER		"0.3"
+#define PLUGIN_VER		"0.4"
 
 #include <maya/MPxCommand.h>
 

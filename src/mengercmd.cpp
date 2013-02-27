@@ -63,7 +63,7 @@ static void addCube(
     }
 }
 
-static void makeCubes(std::vector<cube> &cubes, MStatus *stat)
+static void makeCubes(std::vector<cube> &cubes, MString &name, MStatus *stat)
 {
     MFnMesh fnMesh;
     MObject result;
@@ -108,7 +108,6 @@ static void makeCubes(std::vector<cube> &cubes, MStatus *stat)
 
 	fnMesh.updateSurface();
 
-		
 	/* Assign Shader. */
 	MSelectionList sel_list;
 	if (!MFAIL(sel_list.add("initialShadingGroup")))
@@ -120,7 +119,8 @@ static void makeCubes(std::vector<cube> &cubes, MStatus *stat)
 	}
 
 	/* Give it a swanky name. */
-	fnMesh.setName("polyMengerSponge", false, stat);
+	MFnDagNode parent(fnMesh.parent(0));
+	name = parent.setName("polyMengerSponge", false, stat);
 }
 
 #define FLAG_SIZE               "-s"
@@ -166,9 +166,12 @@ MStatus mengerCmd::doIt(const MArgList &args)
 
     if (dice_status == dice_err::success)
     {
-        MGlobal::displayInfo("A Menger Sponge was created.!");
+        MGlobal::displayInfo("A Menger Sponge was created.");
 
-        makeCubes(cubes, &stat);
+		MString name;
+        makeCubes(cubes, name, &stat);
+
+		setResult(name);
     }
     else
     {
