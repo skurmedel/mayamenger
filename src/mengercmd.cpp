@@ -6,8 +6,10 @@
 #include <maya/MFnPlugin.h>
 #include <maya/MIOStream.h>
 #include <maya/MGlobal.h>
+#include <maya/MSelectionList.h>
 
 #include <maya/MFnMesh.h>
+#include <maya/MFnSet.h>
 #include <maya/MFloatPoint.h>
 #include <maya/MFloatVector.h>
 #include <maya/MFloatPointArray.h>
@@ -95,6 +97,30 @@ static void makeCubes(std::vector<cube> &cubes, MStatus *stat)
             faceConnects, 
             MObject::kNullObj, 
             stat);
+
+	/* Harden all edges. */
+	int n_edges = fnMesh.numEdges(stat);
+	for (int i = 0; i < n_edges; ++i)
+	{
+		fnMesh.setEdgeSmoothing(i, false);
+	}
+	fnMesh.cleanupEdgeSmoothing(); /* Must be called after editing edges. */
+
+	fnMesh.updateSurface();
+
+		
+	/* Assign Shader. */
+	MSelectionList sel_list;
+	if (!MFAIL(sel_list.add("initialShadingGroup")))
+	{
+		MObject set_obj; 
+		sel_list.getDependNode(0, set_obj);
+		MFnSet set(set_obj);
+		set.addMember(newMesh);
+	}
+
+	/* Give it a swanky name. */
+	fnMesh.setName("polyMengerSponge", false, stat);
 }
 
 #define FLAG_SIZE               "-s"
